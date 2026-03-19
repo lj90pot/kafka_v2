@@ -5,6 +5,11 @@
     "tasks.max": "1",
     "connection.url": "jdbc:mysql://mysql:3306/db?user=user&password=password&useSSL=false",
     "topics": "_transactions",
-    "table.name.format": "sales_transactions"
+    "table.name.format": "sales_transactions",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
   }
 }

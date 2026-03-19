@@ -1,6 +1,7 @@
 package com.ucmmaster.kafka.streams;
 
 import com.ucmmaster.kafka.data.v1.TemperatureTelemetry;
+
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
@@ -11,6 +12,7 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,20 +49,43 @@ public class KStreamApp {
         return builder.build();
     }
 
+    //public static void main(String[] args) throws IOException {
+//
+    //    // Cargamos la configuración
+    //    Properties props = ConfigLoader.getProperties();
+    //    props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kstream-app");
+//
+    //    // Creamos la topologia
+    //    Topology topology = createTopology();
+//
+    //    KafkaStreams streams = new KafkaStreams(topology, props);
+    //    // Iniciar Kafka Streams
+    //    streams.start();
+    //    // Parada controlada en caso de apagado
+    //    Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+//
+    //}
     public static void main(String[] args) throws IOException {
+        System.out.println("java.version = " + System.getProperty("java.version"));
+        System.out.println("java.home = " + System.getProperty("java.home"));
 
-        // Cargamos la configuración
         Properties props = ConfigLoader.getProperties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kstream-app");
 
-        // Creamos la topologia
         Topology topology = createTopology();
+        System.out.println(topology.describe());
 
         KafkaStreams streams = new KafkaStreams(topology, props);
-        // Iniciar Kafka Streams
-        streams.start();
-        // Parada controlada en caso de apagado
-        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 
+        streams.setStateListener((newState, oldState) ->
+                System.out.println("State changed from " + oldState + " to " + newState));
+
+        streams.setUncaughtExceptionHandler(exception -> {
+            exception.printStackTrace();
+            return StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.SHUTDOWN_APPLICATION;
+        });
+
+        streams.start();
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
 }

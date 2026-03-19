@@ -1,8 +1,64 @@
 {
-  "namespace": "com.farmia.iot",
-  "name": "SensorTelemetry",
   "type": "record",
+  "name": "SensorTelemetry",
+  "namespace": "com.ucmmaster.kafka.data.telemetry.iot",
   "fields": [
-    ...
+    {
+      "name": "sensor_id",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "regex": "sensor_[0-9]{3}"
+        }
+      }
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "arg.properties": {
+          "range": {
+            "min": 1673548200000,
+            "max": 1673549200000
+          }
+        }
+      }
+    },
+    {
+      "name": "temperature",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 10,
+            "max": 40
+          }
+        }
+      }
+    },
+    {
+      "name": "humidity",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 10,
+            "max": 90
+          }
+        }
+      }
+    },
+    {
+      "name": "soil_fertility",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 0,
+            "max": 100
+          }
+        }
+      }
+    }
   ]
 }

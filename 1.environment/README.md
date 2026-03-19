@@ -47,7 +47,7 @@ docker compose down -v
 * Control Center : http://localhost:9021
 * Schema Registry: http://localhost:8081
 * Kafka Connect: http://localhost:8083
-* ksqlDB: http://localhost:8088
+* ksqlDB:  
 
 
 > ⚠️ **NOTA**<br/>El estado de los contenedores no se persiste. Esto quiere decir que el estado y los datos en nuestro cluster se perderán una vez lo paremos 

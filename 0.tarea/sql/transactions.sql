@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS db.sales_transactions (
     category VARCHAR(100) NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (transaction_id,timestamp)
+    timestamp_ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (transaction_id,timestamp_ts)
 );
